@@ -19,6 +19,21 @@ function App() {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
+
+  useEffect(() => {
+    ChildAdded();
+  }, [])
+
+  const ChildAdded = () => {
+    console.log("line51")
+    onChildAdded(chatListRef, (data) => {
+      console.log("MESSAGES")
+      //   console.log(data.val());
+      console.log("QWE", chats, data.val(), chats.length)
+      setchats(chats => [...chats, data.val()]);
+      updateHeight();
+    }, 100);
+  }
   const googleLogin = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -47,20 +62,10 @@ function App() {
 
   }
 
-  useEffect(() => {
-    onChildAdded(chatListRef, (data) => {
-      console.log("MESSAGES")
-      //   console.log(data.val());
-      console.log("QWE", chats, data.val(), chats.length)
-      setchats([...chats, data.val()]);
-      updateHeight();
-    }, 100);
-  }, [setchats])
+
 
   const updateHeight = () => {
-    // console.log("{{{{{{{{{");
     const el = document.getElementById('chat');
-
     // el.scrollTop = el.scrollHeight;
     if (el) {
       el.scrollTop = el.scrollHeight;
